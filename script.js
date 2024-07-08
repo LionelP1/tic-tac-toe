@@ -29,8 +29,7 @@ const gameBoard = (()=>{
 })();
 
 
-
-
+//Module for the game controller
 const gameController = (() => {
     const playerX = Player("X");
     const playerO = Player("O");
@@ -40,8 +39,6 @@ const gameController = (() => {
 
     const playMove = (inputIndex) => {
         gameBoard.setBoardIndex(inputIndex,getCurrentPlayerSign());
-        //Now display the symbol on screen
-
         if(checkWin(inputIndex)){
             //Display Message
             isOver = true;
@@ -66,11 +63,11 @@ const gameController = (() => {
       };
     
     const getCurrentPlayerSign = () => {
-        if(move % 2 === 1){
-            return playerO.getSign();
+        if(move % 2 == 1){
+            return playerX.getSign();
         }
         else{
-            return playerX.getSign();
+            return playerO.getSign();
         }
     };
 
@@ -94,7 +91,7 @@ const gameController = (() => {
         return false;
     };
 
-    return {playMove, reset, getIsOver};
+    return {playMove, reset, getCurrentPlayerSign, getIsOver};
 
 })();
 
@@ -103,22 +100,37 @@ const gameController = (() => {
 
 
 
-
-
-//Module for dispay controls
+//Module for the display controls
 const displayControls = (() => {
     const inputElements = document.querySelectorAll(".input");
     const messageElement = document.getElementById("message");
     const restartButton = document.getElementById("restartBtn");
     const onePlayerButton = document.getElementById("onePlayerBtn");
     const twoPlayerButton = document.getElementById("twoPlayerBtn");
+    //Add popup selector
+
+    inputElements.forEach((input) =>
+        input.addEventListener("click", (e) => {
+            if (gameController.getIsOver() || e.target.textContent !== "") {return};
+            e.target.textContent = gameController.getCurrentPlayerSign();
+            gameController.playMove(parseInt(e.target.dataset.index));
+    }));
 
 
     restartButton.addEventListener("click", (e) => {
+        clearDisplay();
         gameBoard.resetBoard();
+        gameController.reset();
+
+
     });
 
 
+    const clearDisplay  = () => {
+        for (let i = 0; i < inputElements.length; i++) {
+          inputElements[i].textContent = "";
+        }
+    };
 
 
 
