@@ -28,3 +28,75 @@ const gameBoard = (()=>{
     return {board, setBoardIndex, getBoardIndex, resetBoard};
 })();
 
+
+
+
+const gameController = (() => {
+    const playerX = Player("X");
+    const playerO = Player("O");
+    let move = 1;
+    let isOver = false;
+
+    const getCurrentPlayerSign = () => {
+        if(move % 2 === 1){
+            return playerO.getSign();
+        }
+        else{
+            return playerX.getSign();
+        }
+    };
+
+
+    const playMove = (fieldIndex) => {
+        gameBoard.setBoardIndex(fieldIndex,getCurrentPlayerSign());
+        //Now display the symbol on screen
+
+
+        if(/*Player Wins */){
+            //Display Message
+            //return
+        }
+
+        if(round === 9){
+            //display message:Draw
+            //Return
+        }
+
+
+        move++;
+
+
+
+    };
+    
+
+
+})();
+
+
+
+
+
+
+
+
+//Module for dispay controls
+const displayControls = (() => {
+    const inputElements = document.querySelectorAll(".input");
+    const messageElement = document.getElementById("message");
+    const restartButton = document.getElementById("restartBtn");
+    const onePlayerButton = document.getElementById("onePlayerBtn");
+    const twoPlayerButton = document.getElementById("twoPlayerBtn");
+
+
+    restartButton.addEventListener("click", (e) => {
+        gameBoard.resetBoard();
+    });
+
+
+
+
+
+})();
+
+
