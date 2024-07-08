@@ -38,19 +38,20 @@ const gameController = (() => {
 
 
     const playMove = (inputIndex) => {
-        gameBoard.setBoardIndex(inputIndex,getCurrentPlayerSign());
+        gameBoard.setBoardIndex(inputIndex, getCurrentPlayerSign());
         if(checkWin(inputIndex)){
-            //Display Message
+            displayControls.setMessageElement(`${getCurrentPlayerSign()} has won!`);
             isOver = true;
             return;
         }
 
         if(move === 9){
-            //display message:Draw
+            displayControls.setMessageElement("Its a draw!");
             isOver = true;
             return;
         }
         move++;
+        displayControls.setMessageElement(`Player ${getCurrentPlayerSign()} Turn`);
     };
     
     const reset = () => {
@@ -125,13 +126,19 @@ const displayControls = (() => {
 
     });
 
-
     const clearDisplay  = () => {
+        setMessageElement(`Player X Turn`);
         for (let i = 0; i < inputElements.length; i++) {
           inputElements[i].textContent = "";
         }
     };
 
+
+    const setMessageElement = (message) => {
+        messageElement.textContent = message;
+      };
+    
+    return {setMessageElement}
 
 
 })();
