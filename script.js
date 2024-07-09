@@ -26,19 +26,27 @@ const gameBoard = (()=>{
             board[i] = "";
         }
     };
-
     return {board, setBoardIndex, getBoardIndex, resetBoard};
 })();
 
 
 //Module for the game controller
 const gameController = (() => {
-    const playerX = Player("X");
-    const playerO = Player("O");
     let move = 1;
     let isOver = false;
     let mode = "onePlayer";
 
+    let playerX;
+    let playerO;
+
+
+    if(mode = "twoPlayer"){
+        playerX = Player("X");
+        playerO = Player("O");
+    }else if(mode = "onePlayer"){
+        playerX = Player("X");
+        playerO = Player("O", true);
+    }
 
     const playMove = (inputIndex) => {
         gameBoard.setBoardIndex(inputIndex, getCurrentPlayerSign());
@@ -55,17 +63,9 @@ const gameController = (() => {
         }
         move++;
         displayControls.setMessageElement(`Player ${getCurrentPlayerSign()} Turn`);
-        if(mode === onePlayer){
-            playRandomMove();
-        }
     };
 
-
-    const playRandomMove = () => {
-        playMove(getrandomLegalMove());
-    };
-
-    const getrandomLegalMove = () => {
+    const getRandomLegalMove = () => {
         const emptyIndices = [];
         for (let i = 0; i < gameBoard.board.length; i++) {
             if (gameBoard.board[i] === "") {
@@ -83,7 +83,7 @@ const gameController = (() => {
 
     const getIsOver = () => {
         return isOver;
-      };
+    };
     
     const getCurrentPlayerSign = () => {
         if(move % 2 == 1){
@@ -114,11 +114,15 @@ const gameController = (() => {
         return false;
     };
 
+    const getMode = () => {
+        return mode;
+    };
+
     const setMode = (modeToSet) => { 
         mode = modeToSet;
     };
 
-    return {playMove, reset, getCurrentPlayerSign, getIsOver, setMode};
+    return {playMove, reset, getCurrentPlayerSign, getIsOver, getRandomLegalMove, getMode, setMode};
 
 })();
 
@@ -139,8 +143,23 @@ const displayControls = (() => {
     inputElements.forEach((input) =>
         input.addEventListener("click", (e) => {
             if (gameController.getIsOver() || e.target.textContent !== "") {return};
-            e.target.textContent = gameController.getCurrentPlayerSign();
-            gameController.playMove(parseInt(e.target.dataset.index));
+
+            if(gameController.getMode() === "twoPlayer"){
+                e.target.textContent = gameController.getCurrentPlayerSign();
+                gameController.playMove(parseInt(e.target.dataset.index));
+            }
+            else if (gameController.getMode() === "onePlayer") {
+                e.target.textContent = gameController.getCurrentPlayerSign();
+                gameController.playMove(parseInt(e.target.dataset.index));
+    
+                if (gameController.getIsOver()) {return;}
+    
+                setTimeout(() => {
+                    let randomIndex = gameController.getRandomLegalMove();
+                    inputElements[randomIndex].textContent = gameController.getCurrentPlayerSign();
+                    gameController.playMove(randomIndex);
+                }, 700);
+            }
     }));
 
     onePlayerButton.addEventListener("click",(e) => {
@@ -179,9 +198,7 @@ const displayControls = (() => {
         messageElement.textContent = message;
       };
     
-    return {setMessageElement}
-
-
+    return {setMessageElement};
 })();
 
 
