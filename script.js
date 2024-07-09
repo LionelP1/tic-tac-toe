@@ -35,6 +35,7 @@ const gameController = (() => {
     const playerO = Player("O");
     let move = 1;
     let isOver = false;
+    let mode = "onePlayer";
 
 
     const playMove = (inputIndex) => {
@@ -92,7 +93,11 @@ const gameController = (() => {
         return false;
     };
 
-    return {playMove, reset, getCurrentPlayerSign, getIsOver};
+    const setMode = (modeToSet) => { 
+        mode = modeToSet;
+    };
+
+    return {playMove, reset,getCurrentPlayerSign, getIsOver, setMode};
 
 })();
 
@@ -117,16 +122,31 @@ const displayControls = (() => {
             gameController.playMove(parseInt(e.target.dataset.index));
     }));
 
+    onePlayerButton.addEventListener("click",(e) => {
+        resetEverything();
+        onePlayerButton.style.backgroundColor = '#4682B4';
+        twoPlayerButton.style.backgroundColor = '#f0f0f0';
+        gameController.setMode("onePlayer");
+    });
+
+    twoPlayerButton.addEventListener("click",(e) => {
+        resetEverything();
+        twoPlayerButton.style.backgroundColor = '#4682B4';
+        onePlayerButton.style.backgroundColor = '#f0f0f0';
+        gameController.setMode("twoPlayer");
+    });
 
     restartButton.addEventListener("click", (e) => {
+        resetEverything();
+    });
+
+    const resetEverything = () => {
         clearDisplay();
         gameBoard.resetBoard();
         gameController.reset();
+    };
 
-
-    });
-
-    const clearDisplay  = () => {
+    const clearDisplay = () => {
         setMessageElement(`Player X Turn`);
         for (let i = 0; i < inputElements.length; i++) {
           inputElements[i].textContent = "";
