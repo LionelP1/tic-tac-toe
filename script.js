@@ -1,10 +1,12 @@
 "use strict";
 
 //Player Object Factory Constructor
-const Player = (sign) => {
+const Player = (sign, isComputer = false) => {
     this.sign = sign;
+    this.isComputer = isComputer;
     const getSign = () => {return sign;}
-    return {getSign};
+    const getIsComputer = () => {return isComputer;}
+    return {getSign, getIsComputer};
 };
 
 // Module for game board
@@ -40,12 +42,12 @@ const gameController = (() => {
 
     const playMove = (inputIndex) => {
         gameBoard.setBoardIndex(inputIndex, getCurrentPlayerSign());
+        
         if(checkWin(inputIndex)){
             displayControls.setMessageElement(`${getCurrentPlayerSign()} has won!`);
             isOver = true;
             return;
         }
-
         if(move === 9){
             displayControls.setMessageElement("Its a draw!");
             isOver = true;
@@ -53,6 +55,25 @@ const gameController = (() => {
         }
         move++;
         displayControls.setMessageElement(`Player ${getCurrentPlayerSign()} Turn`);
+        if(mode === onePlayer){
+            playRandomMove();
+        }
+    };
+
+
+    const playRandomMove = () => {
+        playMove(getrandomLegalMove());
+    };
+
+    const getrandomLegalMove = () => {
+        const emptyIndices = [];
+        for (let i = 0; i < gameBoard.board.length; i++) {
+            if (gameBoard.board[i] === "") {
+                emptyIndices.push(i);
+            }
+        }
+        const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        return randomIndex;
     };
     
     const reset = () => {
@@ -97,7 +118,7 @@ const gameController = (() => {
         mode = modeToSet;
     };
 
-    return {playMove, reset,getCurrentPlayerSign, getIsOver, setMode};
+    return {playMove, reset, getCurrentPlayerSign, getIsOver, setMode};
 
 })();
 
