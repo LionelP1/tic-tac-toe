@@ -129,8 +129,6 @@ const gameController = (() => {
 
 
 
-
-
 //Module for the display controls
 const displayControls = (() => {
     const inputElements = document.querySelectorAll(".input");
