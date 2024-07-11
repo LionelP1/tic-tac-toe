@@ -47,6 +47,10 @@ const gameController = (() => {
         playerX = Player("X");
         playerO = Player("O", true);
     }
+    else if (mode = "zeroPlayer") {
+        playerX = Player("X", true);
+        playerO = Player("O", true);
+    }
 
     const playMove = (inputIndex) => {
         gameBoard.setBoardIndex(inputIndex, getCurrentPlayerSign());
@@ -136,17 +140,22 @@ const displayControls = (() => {
     const restartButton = document.getElementById("restartBtn");
     const onePlayerButton = document.getElementById("onePlayerBtn");
     const twoPlayerButton = document.getElementById("twoPlayerBtn");
+    const zeroPlayerButton = document.getElementById("zeroPlayerBtn");
     //Add popup selector
+
+    let gameRunning = false;
 
     inputElements.forEach((input) =>
         input.addEventListener("click", (e) => {
-            if (gameController.getIsOver() || e.target.textContent !== "") {return};
+            if (gameController.getIsOver() || e.target.textContent !== "" 
+            || gameController.getMode() === "zeroPlayer" || gameRunning === true) {return;};
 
             if(gameController.getMode() === "twoPlayer"){
                 e.target.textContent = gameController.getCurrentPlayerSign();
                 gameController.playMove(parseInt(e.target.dataset.index));
             }
             else if (gameController.getMode() === "onePlayer") {
+                gameRunning = true;
                 e.target.textContent = gameController.getCurrentPlayerSign();
                 gameController.playMove(parseInt(e.target.dataset.index));
     
@@ -156,7 +165,8 @@ const displayControls = (() => {
                     let randomIndex = gameController.getRandomLegalMove();
                     inputElements[randomIndex].textContent = gameController.getCurrentPlayerSign();
                     gameController.playMove(randomIndex);
-                }, 700);
+                    gameRunning = false;
+                }, 800);
             }
     }));
 
@@ -164,6 +174,7 @@ const displayControls = (() => {
         resetEverything();
         onePlayerButton.style.backgroundColor = '#4682B4';
         twoPlayerButton.style.backgroundColor = '#f0f0f0';
+        zeroPlayerButton.style.backgroundColor = '#f0f0f0';
         gameController.setMode("onePlayer");
     });
 
@@ -171,17 +182,54 @@ const displayControls = (() => {
         resetEverything();
         twoPlayerButton.style.backgroundColor = '#4682B4';
         onePlayerButton.style.backgroundColor = '#f0f0f0';
+        zeroPlayerButton.style.backgroundColor = '#f0f0f0';
         gameController.setMode("twoPlayer");
+    });
+
+    zeroPlayerButton.addEventListener("click",(e) => {
+        resetEverything();
+        twoPlayerButton.style.backgroundColor = '#f0f0f0';
+        onePlayerButton.style.backgroundColor = '#f0f0f0';
+        zeroPlayerButton.style.backgroundColor = '#4682B4';
+        gameController.setMode("zeroPlayer");
+        playZeroPlayerGame();
     });
 
     restartButton.addEventListener("click", (e) => {
         resetEverything();
+        if(gameController.getMode() === "zeroPlayer"){
+            playZeroPlayerGame();
+        }
     });
+
+    let gameInterval;
+    const playZeroPlayerGame = () => {
+        clearInterval(gameInterval); 
+    
+        gameInterval = setInterval(() => {
+            if (gameController.getIsOver()) {
+                clearInterval(gameInterval);
+                return;
+            }
+            let randomIndex = gameController.getRandomLegalMove();
+            inputElements[randomIndex].textContent = gameController.getCurrentPlayerSign();
+            gameController.playMove(randomIndex);
+        }, 800);
+    
+        gameRunning = true;
+    };
+    
+    // Function to reset game completely
+    const resetGame = () => {
+        clearInterval(gameInterval);
+        gameRunning = false;
+    };
 
     const resetEverything = () => {
         clearDisplay();
         gameBoard.resetBoard();
         gameController.reset();
+        resetGame();
     };
 
     const clearDisplay = () => {
