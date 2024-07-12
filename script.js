@@ -34,20 +34,20 @@ const gameBoard = (()=>{
 const gameController = (() => {
     let move = 1;
     let isOver = false;
-    let mode = "onePlayer";
+    let mode = "twoPlayer";
 
     let playerX;
     let playerO;
 
 
-    if(mode = "twoPlayer"){
+    if(mode === "twoPlayer"){
         playerX = Player("X");
         playerO = Player("O");
-    }else if(mode = "onePlayer"){
+    }else if(mode === "onePlayer"){
         playerX = Player("X");
         playerO = Player("O", true);
     }
-    else if (mode = "zeroPlayer") {
+    else if (mode === "zeroPlayer") {
         playerX = Player("X", true);
         playerO = Player("O", true);
     }
@@ -57,11 +57,13 @@ const gameController = (() => {
         
         if(checkWin(inputIndex)){
             displayControls.setMessageElement(`${getCurrentPlayerSign()} has won!`);
+            displayControls.openPopup(`${getCurrentPlayerSign()} has won the game!`, "🏆");
             isOver = true;
             return;
         }
         if(move === 9){
             displayControls.setMessageElement("Its a draw!");
+            displayControls.openPopup("Its a draw!", "🤷");
             isOver = true;
             return;
         }
@@ -90,7 +92,7 @@ const gameController = (() => {
     };
     
     const getCurrentPlayerSign = () => {
-        if(move % 2 == 1){
+        if(move % 2 === 1){
             return playerX.getSign();
         }
         else{
@@ -141,9 +143,31 @@ const displayControls = (() => {
     const onePlayerButton = document.getElementById("onePlayerBtn");
     const twoPlayerButton = document.getElementById("twoPlayerBtn");
     const zeroPlayerButton = document.getElementById("zeroPlayerBtn");
-    //Add popup selector
+    const popup = document.querySelector(".popup");
+    const close = document.querySelector(".close");
+    const popupMessage = document.getElementById("popupMessage");
+    const emojiDiv = document.getElementById("emojiDiv");
+    const closeBtn = document.querySelector(".closeBtn");
 
     let gameRunning = false;
+
+
+    const openPopup = (message, emoji) => {
+        popupMessage.textContent = message;
+        emojiDiv.textContent = emoji;
+        popup.style.display = "flex";
+    };
+
+    close.addEventListener("click", () => {
+        popup.style.display = "none";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        popup.style.display = "none";
+    });
+
+
+
 
     inputElements.forEach((input) =>
         input.addEventListener("click", (e) => {
@@ -244,7 +268,7 @@ const displayControls = (() => {
         messageElement.textContent = message;
       };
     
-    return {setMessageElement};
+    return {setMessageElement, openPopup};
 })();
 
 
