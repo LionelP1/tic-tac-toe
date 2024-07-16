@@ -72,10 +72,13 @@ header a {
     height: 150px;
     border: 1px solid black;
     background-color: white;
-    font-size: 100px;
-    text-align: center;
+    font-size: 110px;
     cursor: pointer;
     user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
 }
 
 .input:hover {
@@ -168,7 +171,6 @@ header a {
     margin: 15px 0;
     text-align: center;
 }
-
 
 .closeBtn {
     margin-top: 15px;
