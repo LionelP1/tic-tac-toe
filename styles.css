@@ -6,7 +6,6 @@
   
 body {
     background-color: #f0eef1;
-    font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: 500;
     word-wrap: break-word;
@@ -49,35 +48,34 @@ header a {
 }
 
 .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
 }
 
-.message {
-    margin-bottom: 20px;
-    font-size: 24px;
+#message {
+    padding: 20px 0;
+    font-size: 50px;
+    text-align: center;
 }
 
 .gameboard {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
+    width: 454px;
+    height: 454px;
+    border: 2px solid black;
+    margin: 0px auto;
 }
 
 .input {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 100px;
-    background-color: #e0e0e0;
-    font-size: 36px;
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+    background-color: white;
+    font-size: 100px;
+    text-align: center;
     cursor: pointer;
-    border: 1px solid #ccc;
+    user-select: none;
 }
 
 .input:hover {
