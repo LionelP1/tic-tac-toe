@@ -160,6 +160,7 @@ header a {
     font-size: 35px; 
     margin: 15px 0;
     text-align: center;
+    font-style: inherit;
 }
 
 #emojiDiv {
@@ -184,4 +185,19 @@ header a {
 
 .closeBtn:hover {
     background-color: rgb(204, 41, 41);
+}
+
+
+@media (max-width: 480px) {
+    .gameboard {
+        width: 304px;
+        height: 304px;
+
+    }
+    
+    .input {
+        width: 100px;
+        height: 100px;
+ 
+    }
 }
