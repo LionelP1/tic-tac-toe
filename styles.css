@@ -55,7 +55,6 @@ header a {
 #message {
     padding: 20px 0;
     font-size: 50px;
-    text-align: center;
 }
 
 .gameboard {
@@ -82,17 +81,23 @@ header a {
     background-color: #61e155;
 }
 
-#restart-button {
-    margin-top: 20px;
+#restartBtn {
     padding: 10px 20px;
-    font-size: 18px;
+    border:none;
+    border-radius: 15px;
+    background-color: #e82323;
+    color: white;
+    font-size: 30px;
+  }
+  
+#restartBtn {
+    background-color: #ea4141;
 }
 
 
 #twoPlayerBtn{
     background-color: #4682B4;
 }
-
 
 
 
