@@ -68,7 +68,7 @@ const gameController = (() => {
             return;
         }
         move++;
-        displayControls.setMessageElement(`Player ${getCurrentPlayerSign()} Turn`);
+        displayControls.setMessageElement(`Player ${getCurrentPlayerSign()}'s Turn`);
     };
 
     const getRandomLegalMove = () => {
@@ -196,25 +196,25 @@ const displayControls = (() => {
 
     onePlayerButton.addEventListener("click",(e) => {
         resetEverything();
-        onePlayerButton.style.backgroundColor = '#4682B4';
-        twoPlayerButton.style.backgroundColor = '#f0f0f0';
-        zeroPlayerButton.style.backgroundColor = '#f0f0f0';
+        onePlayerButton.style.backgroundColor = '#6c6c6c';
+        twoPlayerButton.style.backgroundColor = '#949494';
+        zeroPlayerButton.style.backgroundColor = '#949494';
         gameController.setMode("onePlayer");
     });
 
     twoPlayerButton.addEventListener("click",(e) => {
         resetEverything();
-        twoPlayerButton.style.backgroundColor = '#4682B4';
-        onePlayerButton.style.backgroundColor = '#f0f0f0';
-        zeroPlayerButton.style.backgroundColor = '#f0f0f0';
+        twoPlayerButton.style.backgroundColor = '#6c6c6c';
+        onePlayerButton.style.backgroundColor = '#949494';
+        zeroPlayerButton.style.backgroundColor = '#949494';
         gameController.setMode("twoPlayer");
     });
 
     zeroPlayerButton.addEventListener("click",(e) => {
         resetEverything();
-        twoPlayerButton.style.backgroundColor = '#f0f0f0';
-        onePlayerButton.style.backgroundColor = '#f0f0f0';
-        zeroPlayerButton.style.backgroundColor = '#4682B4';
+        twoPlayerButton.style.backgroundColor = '#949494';
+        onePlayerButton.style.backgroundColor = '#949494';
+        zeroPlayerButton.style.backgroundColor = '#6c6c6c';
         gameController.setMode("zeroPlayer");
         playZeroPlayerGame();
     });
@@ -257,7 +257,7 @@ const displayControls = (() => {
     };
 
     const clearDisplay = () => {
-        setMessageElement(`Player X Turn`);
+        setMessageElement(`Player X's Turn`);
         for (let i = 0; i < inputElements.length; i++) {
           inputElements[i].textContent = "";
         }
